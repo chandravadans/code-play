@@ -25,9 +25,9 @@ public class APlusB2 {
     public static void main(String[] args) throws IOException {
 
         try (Scanner in = newInput(); PrintWriter out = newOutput()) {
-            Integer a = in.nextInt();
-            Integer b = in.nextInt();
-            out.println(a + Math.pow(Double.valueOf("" + b), 2.0));
+            Long a = Long.valueOf("" + in.nextInt());
+            Long b = Long.valueOf("" + in.nextInt());
+            out.print(a + (b * b));
         }
     }
 }
