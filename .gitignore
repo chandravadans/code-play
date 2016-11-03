@@ -70,3 +70,6 @@ modules.xml
 hs_err_pid*
 # The whole of the .idea folder
 .idea/
+
+*.in
+*.out
