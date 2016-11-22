@@ -1,4 +1,4 @@
-package com.cv.codepad.first;
+package com.cv.codepad.edx.wcc.w1;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class APlusB {
     static Scanner newInput() throws IOException {
         if (System.getProperty("JUDGE") != null) {
-            return new Scanner(new File("src/main/resources/aplusb.in"));
+            return new Scanner(new File("aplusb.in"));
         } else {
             return new Scanner(System.in);
         }
@@ -16,7 +16,7 @@ public class APlusB {
 
     static PrintWriter newOutput() throws IOException {
         if (System.getProperty("JUDGE") != null) {
-            return new PrintWriter("src/main/resources/aplusb.out");
+            return new PrintWriter("aplusb.out");
         } else {
             return new PrintWriter(System.out);
         }

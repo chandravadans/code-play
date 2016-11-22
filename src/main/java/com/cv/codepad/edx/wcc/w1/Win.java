@@ -1,4 +1,4 @@
-package com.cv.codepad.w1;
+package com.cv.codepad.edx.wcc.w1;
 
 /**
  * Created by cv on 11/3/16.
