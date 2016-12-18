@@ -56,12 +56,15 @@ public class Spiral {
         Scanner in = new Scanner(System.in);
         int rows = in.nextInt();
         int cols = in.nextInt();
-        List<ArrayList<Integer>> matr = new ArrayList<ArrayList<Integer>>(rows);
+        List<ArrayList<Integer>> matr = new ArrayList<>(rows);
         for (int i = 0; i < rows; i++) {
+            ArrayList<Integer> colElements = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
-                matr.get(i).add(in.nextInt());
+                colElements.add(in.nextInt());
             }
+            matr.add(colElements);
         }
-        spiralOrderTraversal(matr);
+        ArrayList<Integer> spiralOrderTraversal = spiralOrderTraversal(matr);
+        spiralOrderTraversal.stream().forEach(element -> System.out.print(element + " "));
     }
 }
