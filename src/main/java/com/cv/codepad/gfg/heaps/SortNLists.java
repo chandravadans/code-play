@@ -26,7 +26,15 @@ public class SortNLists {
         int numLists = lists.length;
         int sizeOfEachList = lists[0].length;
         Integer result [] = new Integer[numLists*sizeOfEachList];
-        PriorityQueue<HeapNode> heap = new PriorityQueue<>(numLists, (node1, node2) -> node1.element - node2.element);
+        PriorityQueue<HeapNode> heap = new PriorityQueue<>(numLists, (node1, node2) -> {
+            if (node1.element < node2.element) {
+                return -1;
+            } else if(node1.element > node2.element) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
         for(int i=0; i < numLists; i++) {
             HeapNode thisNode = new HeapNode(lists[i][0],i,1);
             heap.offer(thisNode);
@@ -52,9 +60,9 @@ public class SortNLists {
 
     public static void main(String[] args) {
         SortNLists solution = new SortNLists();
-        Integer nLists[][] = {{-5, -2, 1, 3, 5, 7},
-            {-1, 0, 2, 4, 6, 8},
-            {-3, -1, 0, 9, 10, 11}};
+        Integer nLists[][] = {{-6, -5, -4},
+            {-1, 0, 2},
+            {-3, -1, 0}};
         Integer[] integers = solution.sortNLists(nLists);
         for(Integer i : integers) {
             System.out.print(i + " ");
