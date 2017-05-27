@@ -1,11 +1,14 @@
+/*
 package com.cv.codepad.he.graphs;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+*/
 /**
  * Created by Chandravadan on 12/27/2016.
- */
+ *//*
+
 public class EdgeCheck {
     public static void main(String args[]) throws Exception {
         //BufferedReader
@@ -24,7 +27,7 @@ public class EdgeCheck {
             parts = line.split(" ");
             int node1 = Integer.parseInt(parts[0].trim());
             int node2 = Integer.parseInt(parts[1].trim());
-            graph[node1][node2] = true;
+            graph[node1]p[[node2] = true;
             graph[node2][node1] = true;
         }
 
@@ -43,3 +46,4 @@ public class EdgeCheck {
         }
     }
 }
+*/
