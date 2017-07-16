@@ -1,4 +1,4 @@
-package com.cv.codepad.misc;
+package com.cv.codepad.concurrency;
 
 /**
  * Created by Chandravadan on 5/3/2017.
