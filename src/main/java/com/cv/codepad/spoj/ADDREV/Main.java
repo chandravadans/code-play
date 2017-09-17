@@ -13,10 +13,10 @@ public class Main {
         int t = Integer.parseInt(in.readLine());
         while(t > 0) {
             StringTokenizer tokenizer = new StringTokenizer(in.readLine());
-            int a = Integer.parseInt(new StringBuffer(tokenizer.nextToken()).reverse().toString());
-            int b = Integer.parseInt(new StringBuffer(tokenizer.nextToken()).reverse().toString());
+            int a = Integer.parseInt(new StringBuilder(tokenizer.nextToken()).reverse().toString());
+            int b = Integer.parseInt(new StringBuilder(tokenizer.nextToken()).reverse().toString());
             int ans = a + b;
-            System.out.println(Integer.parseInt(new StringBuffer(String.valueOf(ans)).reverse().toString()));
+            System.out.println(Integer.parseInt(new StringBuilder(String.valueOf(ans)).reverse().toString()));
             t--;
         }
     }
