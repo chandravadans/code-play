@@ -18,9 +18,9 @@ Given list of positive numbers, form the largest number
 public class FormLargestNumber {
     public static void main(String[] args) {
         List<Integer> test = Arrays.asList(3, 30, 34, 5, 9);
-        //List<Integer> test = Arrays.asList(new Integer[]{9, 0, 99, 43, 31, 33, 34});
-        //List<Integer> test = Arrays.asList(new Integer[]{3, 30});
-        //List<Integer> test = Arrays.asList(new Integer[]{34, 32, 3, 5, 9});
+        //List<Integer> runTests = Arrays.asList(new Integer[]{9, 0, 99, 43, 31, 33, 34});
+        //List<Integer> runTests = Arrays.asList(new Integer[]{3, 30});
+        //List<Integer> runTests = Arrays.asList(new Integer[]{34, 32, 3, 5, 9});
         System.out.println(largestNumber(test));
     }
 

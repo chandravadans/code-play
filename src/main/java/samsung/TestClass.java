@@ -143,7 +143,7 @@ In the first line, print the total number of possible ways to reach (N,M) from (
 Print the cell indexes (space separated) of each step of his lexicographically largest path in a new line .
 If no path exists, only print 0 in first line.
 
-(See sample test case for clarification)
+(See sample runTests case for clarification)
 
 Sample Input
 3 3

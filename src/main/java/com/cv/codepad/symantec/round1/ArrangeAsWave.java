@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class ArrangeAsWave {
     public static void main(String[] args) {
-        //Integer[] test = new Integer[]{1, 2, 3, 4, 5};
+        //Integer[] runTests = new Integer[]{1, 2, 3, 4, 5};
         Integer[] test = new Integer[]{2, 1};
         Integer[] result = wave(test);
         for (Integer number : result) {

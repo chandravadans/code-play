@@ -34,7 +34,7 @@ import java.util.StringTokenizer;
  * Output format
  * Your output must consist of a single line containing two integers W and L, where W is 1 or 2 and indicates the winner and L is the maximum lead attained by the winner.
  * Test Data
- * The range of values over which your program is to be tested is mentioned above. In addition, 50% of the test cases will also satisfy N ≤ 1000.
+ * The range of values over which your program is to be tested is mentioned above. In addition, 50% of the runTests cases will also satisfy N ≤ 1000.
  * Example
  * We now illustrate the input and output formats using the example described above.
  * Sample input:

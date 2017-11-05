@@ -8,11 +8,11 @@ import java.util.Scanner;
  Note : The following letters are vowels: 'A', 'E', 'I', 'O', 'U' ,'a','e','i','o' and 'u'.
 
  Input:
- The first line consists of an integer T denoting the number of test cases.
- Each test case consists of only one string, each character of string denoting the alphabet (may be lowercase or uppercase) on a tree in the garden.
+ The first line consists of an integer T denoting the number of runTests cases.
+ Each runTests case consists of only one string, each character of string denoting the alphabet (may be lowercase or uppercase) on a tree in the garden.
 
  Output:
- For each test case, print the count in a new line.
+ For each runTests case, print the count in a new line.
 
  Constraints:
  1≤T≤10
