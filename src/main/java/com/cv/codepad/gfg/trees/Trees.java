@@ -23,20 +23,13 @@ public class Trees {
         System.out.println("Looking up 4 : " + bst.lookup(4));
         System.out.println("Looking up 8: " + bst.lookup(8));
 
-        // Level order traversal
-        System.out.println("\nLevel order traversal: ");
-        System.out.println("Tree: ");
-        bst.print();
-        System.out.print("Level order traversal : ");
-        bst.levelOrder();
-
         // Size
         System.out.println("\nSize : ");
         System.out.println("Tree: ");
         bst.print();
         System.out.println("Size: " + bst.size());
 
-        // MaxDepth
+        // Height
         System.out.println("\nHeight of tree: ");
         bst = new BST();
         nums = new int[]{100, 90, 80, 85, 84, 83, 82, 81, 110, 105, 120, 10, 107, 108};
@@ -44,6 +37,21 @@ public class Trees {
         System.out.println("Tree: ");
         bst.print();
         System.out.println("Height : " + bst.height());
+
+        // Level order traversal
+        System.out.println("\nLevel order traversal: ");
+        System.out.println("Tree: ");
+        bst.print();
+        System.out.print("Level order traversal : ");
+        bst.levelOrder();
+
+        // Inorder traversal
+        System.out.println("\nIn order traversal: ");
+        System.out.println("Tree: ");
+        bst.print();
+        System.out.print("In order traversal : ");
+        bst.inorder();
+
 
     }
 }
