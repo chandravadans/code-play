@@ -1,6 +1,5 @@
 package com.cv.codepad.gfg.trees;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -128,47 +127,4 @@ public class BST {
         }
     }
 
-    public static void main(String[] args) {
-        BST bst = new BST();
-
-        // Basic Insert test
-        System.out.println("Insertion test: ");
-        bst.insert123();
-        System.out.println("Tree: ");
-        bst.print();
-
-        // Lookup test
-        System.out.println("\nLookup test: ");
-        int nums[] = {2, 4, 3, 1, 6, 5, 7};
-        bst = new BST();
-        Arrays.stream(nums).forEach(bst::insert);
-        System.out.println("Tree: ");
-        bst.print();
-        System.out.println("Looking up 4 : " + bst.lookup(4));
-        System.out.println("Looking up 8: " + bst.lookup(8));
-
-        // Level order traversal
-        System.out.println("\nLevel order traversal: ");
-        System.out.println("Tree: ");
-        bst.print();
-        System.out.print("Level order traversal : ");
-        bst.levelOrder();
-
-        // Size
-        System.out.println("\nSize : ");
-        System.out.println("Tree: ");
-        bst.print();
-        System.out.println("Size: " + bst.size());
-
-        // MaxDepth
-        System.out.println("\nHeight of tree: ");
-        bst = new BST();
-        nums = new int[]{100, 90, 80, 85, 84, 83, 82, 81, 110, 105, 120, 10, 107, 108};
-        Arrays.stream(nums).forEach(bst::insert);
-        System.out.println("Tree: ");
-        bst.print();
-        System.out.println("Height : " + bst.height());
-
-
-    }
 }
