@@ -1,5 +1,5 @@
 package com.cv.codepad.gfg.trees;
 
-public class Trees {
+public class BinaryTree {
 
 }
