@@ -52,6 +52,12 @@ public class Trees {
         System.out.print("In order traversal : ");
         bst.inorder();
 
+        // Boundary Traversal
+        System.out.println("\n Boundary Traversal");
+        System.out.println("Tree: ");
+        bst.print();
+        bst.boundaryTraversal();
+
 
     }
 }

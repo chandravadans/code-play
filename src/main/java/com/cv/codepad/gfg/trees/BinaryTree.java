@@ -112,4 +112,63 @@ public class BinaryTree {
         System.out.print(node.val + ", ");
         inorder(node.right);
     }
+
+
+    /**
+     * Prints the boundary of tree in anticlockwise fashion
+     */
+    public void boundaryTraversal() {
+        boundaryTraversal(root);
+    }
+
+    private void boundaryTraversal(TreeNode node) {
+        if (node != null) {
+            System.out.println(node.val);
+
+            printLeft(node.left);
+
+            printLeaves(node.left);
+            printLeaves(node.right);
+
+            printRight(node.right);
+        }
+    }
+
+    private void printLeft(TreeNode node) {
+        if (node != null) {
+            if (node.left != null) {
+                System.out.println(node.val + " ");
+                printLeft(node.left);
+            } else if (node.right != null) {
+                System.out.println(node.val + " ");
+                printLeft(node.right);
+            }
+            // If both are null, this is a leaf, will print it in the printLeaves function
+        }
+    }
+
+    private void printLeaves(TreeNode node) {
+        if (node != null) {
+            printLeaves(node.left);
+            if (node.left == null && node.right == null) {
+                System.out.println(node.val + " ");
+            }
+            printLeaves(node.right);
+
+        }
+    }
+
+    private void printRight(TreeNode node) {
+        if (node != null) {
+            if (node.right != null) {
+                printRight(node.right);
+                System.out.println(node.val);
+            } else if (node.left != null) {
+                printRight(node.left);
+                System.out.println(node.val);
+            }
+        }
+
+    }
+
 }
