@@ -30,27 +30,11 @@ public class FormLargestNumber {
             asStrings.add(String.valueOf(i));
         }
         asStrings = list.stream().map(i -> String.valueOf(i)).collect(Collectors.toList());
-        Collections.sort(asStrings, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                Integer possibility1 = Integer.valueOf(o1 + o2);
-                Integer possibility2 = Integer.valueOf(o2 + o1);
-                if (possibility1 > possibility2)
-                    return -1;
-                else
-                    return 1;
-            }
-        });
-
-        String x = "hello!";
-        BigInteger b1 = new BigInteger("3428984728974837827487297489278787587238657423865836249765743628698462");
-        BigInteger b2 = new BigInteger("38489279374027587208578275837853289289045835732875285420827485723857238");
-        b1.compareTo(b2);
 
         Collections.sort(asStrings, (o1, o2) -> {
             Integer i1 = Integer.parseInt(o1+o2);
             Integer i2 = Integer.parseInt(o2+o1);
-            return i1.compareTo(i2);
+            return i2.compareTo(i1);
         });
 
         StringBuilder sb = new StringBuilder("");

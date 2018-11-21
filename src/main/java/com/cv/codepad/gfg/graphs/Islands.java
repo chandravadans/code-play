@@ -16,7 +16,6 @@ public class Islands {
         } else {
             return false;
         }
-
     }
 
     public void dfs(int[][]graph, int x, int y, boolean[][] visited) {

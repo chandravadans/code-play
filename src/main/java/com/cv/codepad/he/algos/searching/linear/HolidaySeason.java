@@ -10,20 +10,20 @@ public class HolidaySeason {
         Scanner in = new Scanner(System.in);
         int len = in.nextInt();
         String str = in.next();
+        int counts[][] = new int[len][256];
+        for (int i = 0; i < len; i++) {
+
+        }
         int numMatches = 0;
         if (len < 4) {
             System.out.println(numMatches);
             return;
         }
-        for (int a = 0; a < len - 3; a++) {
-            for (int b = a + 1; b < len - 2; b++) {
-                for (int c = b + 1; c < len - 1; c++) {
-                    for (int d = c + 1; d < len; d++) {
-                        if (str.charAt(a) == str.charAt(c) && str.charAt(b) == str.charAt(d)) {
-                            numMatches ++;
-                            //System.out.println(a+","+b+","+c+","+d);
-                        }
-                    }
+        for (int b = 0; b < len - 1; b++) {
+            for (int d = b + 1; d < len; d++) {
+                if (str.charAt(b) == str.charAt(d)) {
+                    // Search for matching a and c
+
                 }
             }
         }

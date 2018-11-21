@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
  * Created by cv on 4/17/17.
  */
 public class SortNLists {
+
     class HeapNode {
         public int element;
         public int listIndex;

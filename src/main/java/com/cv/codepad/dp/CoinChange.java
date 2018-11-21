@@ -1,5 +1,7 @@
 package com.cv.codepad.dp;
 
+import java.lang.ref.SoftReference;
+
 /**
  * Created by cv on 11/7/17.
  */
@@ -18,11 +20,10 @@ public class CoinChange {
      */
     public int minCoinsForChange(int[] coins, int change) {
         int[] dp = new int[change];
+
+
         return 0;
     }
-
-
-
 
     public int numWaysOfMakingChange(int[] coins, int change) {
         return 0;
