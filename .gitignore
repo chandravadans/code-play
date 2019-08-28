@@ -73,3 +73,8 @@ hs_err_pid*
 
 *.in
 *.out
+.classpath
+.project
+target
+.settings
+.vscode
