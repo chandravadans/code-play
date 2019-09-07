@@ -3,7 +3,6 @@ package com.cv.codepad.google.apac17.practice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 /**
  * Created by cv on 2/21/17.

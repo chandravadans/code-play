@@ -1,7 +1,5 @@
 package com.cv.codepad.atlasn;
 
-import java.util.Arrays;
-
 public class Base7 {
     public static void main(String[] args) {
         Base7 sol = new Base7();

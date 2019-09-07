@@ -1,7 +1,5 @@
 package com.cv.codepad.atlasn.connpool;
 
-import com.mysql.cj.jdbc.ConnectionWrapper;
-
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;

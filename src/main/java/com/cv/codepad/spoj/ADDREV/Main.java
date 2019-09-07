@@ -34,7 +34,7 @@ class Solver {
         while (num.length() > 0 && num.charAt(0) == '0') {
             num.deleteCharAt(0);
         }
-        if(num.length() > 0) {
+        if (num.length() > 0) {
             return num.toString();
         } else {
             return "0";

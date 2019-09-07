@@ -1,7 +1,5 @@
 package com.cv.codepad.dp;
 
-import java.lang.ref.SoftReference;
-
 /**
  * Created by cv on 11/7/17.
  */
