@@ -1,11 +1,10 @@
 package com.cv.codepad.edx.wcc.w1;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import mooc.EdxIO;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.stream.IntStream;
 
 /**
  * To successfully participate in programming competitions, you should prepare a lot. This is very clear to young Jamie.
@@ -43,59 +42,46 @@ import java.util.Scanner;
  * 6
  */
 public class Prepare {
-    static Scanner newInput() throws IOException {
-        if (System.getProperty("JUDGE") != null) {
-            return new Scanner(new File("prepare.in"));
-        } else {
-            return new Scanner(System.in);
+
+    public static void main(String[] args) {
+        try (EdxIO io = EdxIO.create()) {
+            int n = io.nextInt();
+            List<Integer> p = new ArrayList<>(), t = new ArrayList<>();
+            IntStream.range(0, n).forEach(i -> {
+                p.add(io.nextInt());
+            });
+            IntStream.range(0, n).forEach(i -> {
+                t.add(io.nextInt());
+            });
+            io.println(PrepareSolver.solve(n, p, t));
         }
     }
+}
 
-    static PrintWriter newOutput() throws IOException {
-        if (System.getProperty("JUDGE") != null) {
-            return new PrintWriter("prepare.out");
-        } else {
-            return new PrintWriter(System.out);
+class PrepareSolver {
+
+    static int solve(int n, List<Integer> p, List<Integer> t) {
+        int ability = 0;
+        boolean didPractice = false;
+        boolean didTheory = false;
+        int minDiff = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            if (p.get(i) >= t.get(i)) {
+                didPractice = true;
+                ability += p.get(i);
+            } else {
+                didTheory = true;
+                ability += t.get(i);
+            }
+            int diff = Math.abs(p.get(i) - t.get(i));
+            if (diff < minDiff) {
+                minDiff = diff;
+            }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        try (Scanner in = newInput(); PrintWriter out = newOutput()) {
-            Integer numberOfDays = in.nextInt();
-            List<Integer> practice = new ArrayList<>();
-            List<Integer> theory = new ArrayList<>();
-            Integer ability = 0;
-            for (int i = 0; i < numberOfDays; i++) {
-                Integer next = in.nextInt();
-                practice.add(next);
-            }
-
-            for (int i = 0; i < numberOfDays; i++) {
-                Integer next = in.nextInt();
-                theory.add(next);
-            }
-
-            int minDiff = Integer.MAX_VALUE;
-            for (int i = 0; i < numberOfDays; i++) {
-                if (Math.abs(practice.get(i) - theory.get(i)) < minDiff) {
-                    minDiff = Math.abs(practice.get(i) - theory.get(i));
-                }
-            }
-            boolean practiced = false, theorised = false;
-            for (int i = 0; i < numberOfDays; i++) {
-                if (practice.get(i) > theory.get(i)) {
-                    ability += practice.get(i);
-                    practiced = true;
-                } else {
-                    ability += theory.get(i);
-                    theorised = true;
-                }
-            }
-            if (!practiced || !theorised) {
-                ability -= minDiff;
-            }
-            out.print(ability);
+        if (!(didPractice && didTheory)) {
+            //Do a 'flip' on the day there's a minimum effect of doing so
+            ability -= minDiff;
         }
+        return ability;
     }
 }
