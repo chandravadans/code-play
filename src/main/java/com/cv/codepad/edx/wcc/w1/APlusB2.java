@@ -1,15 +1,20 @@
 package com.cv.codepad.edx.wcc.w1;
 
-import com.cv.codepad.edx.wcc.EdxIO;
+import mooc.EdxIO;
 
 public class APlusB2 {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
 
         try (EdxIO io = EdxIO.create()) {
-            Long a = io.nextLong();
-            Long b = io.nextLong();
-            io.println(a + (b * b));
+            io.println(APlusB2Solver.solve(io.nextLong(), io.nextLong()));
         }
+    }
+}
+
+class APlusB2Solver {
+
+    static Long solve(long a, long b) {
+        return a + (b * b);
     }
 }
