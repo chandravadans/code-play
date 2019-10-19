@@ -3,7 +3,6 @@ package com.cv.codepad.edx.wcc;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
-import java.nio.file.*;
 import java.util.*;
 
 /**
@@ -21,21 +20,116 @@ public class EdxIO implements Closeable {
      * @return the new EdxIO instance.
      */
     public static EdxIO create() {
-        return new EdxIO("src/main/resources/input.txt", "src/main/resources/output.txt");
+        return new EdxIO("input.txt", "output.txt");
+    }
+
+    /**
+     * This is an abstract class for an entry point intended to be used from Scala.
+     *
+     * It has an abstract method {#receive(EdxIO)} for doing the real work when the EdxIO instance is created,
+     * and an implementation of public-static-void-main which creates an instance and delegates to {#receive(EdxIO)}.
+     */
+    public static abstract class Receiver {
+        /**
+         * This is an abstract method for doing the real work.
+         *
+         * @param io an instance of EdxIO for reading and writing.
+         */
+        protected abstract void receive(EdxIO io);
+
+        /**
+         * This is what will become the public-static-void-main
+         * when this class is extended by a Scala object containing the solution.
+         *
+         * @param args the program's arguments, which are unused.
+         */
+        public final void main(String[] args) {
+            try (EdxIO io = EdxIO.create()) {
+                receive(io);
+            }
+        }
+
+        /**
+         * A convenience method for the Scala solutions to create a new Array[Byte]
+         * without having to load the Scala library.
+         *
+         * @deprecated use the {@code new Array[Byte]} syntax which also does not load the Scala library.
+         * @param n the number of elements.
+         * @return the new array of bytes of length n.
+         */
+        @Deprecated
+        public byte[] newByteArray(int n) {
+            return new byte[n];
+        }
+
+        /**
+         * A convenience method for the Scala solutions to create a new Array[Int]
+         * without having to load the Scala library.
+         *
+         * @deprecated use the {@code new Array[Int]} syntax which also does not load the Scala library.
+         * @param n the number of elements.
+         * @return the new array of ints of length n.
+         */
+        @Deprecated
+        public int[] newIntArray(int n) {
+            return new int[n];
+        }
+
+        /**
+         * A convenience method for the Scala solutions to create a new Array[Long]
+         * without having to load the Scala library.
+         *
+         * @deprecated use the {@code new Array[Long]} syntax which also does not load the Scala library.
+         * @param n the number of elements.
+         * @return the new array of longs of length n.
+         */
+        @Deprecated
+        public long[] newLongArray(int n) {
+            return new long[n];
+        }
+
+        /**
+         * A convenience method for the Scala solutions to create a new Array[Double]
+         * without having to load the Scala library.
+         *
+         * @deprecated use the {@code new Array[Double]} syntax which also does not load the Scala library.
+         * @param n the number of elements.
+         * @return the new array of doubles of length n.
+         */
+        @Deprecated
+        public double[] newDoubleArray(int n) {
+            return new double[n];
+        }
+
+        /**
+         * A convenience method for the Scala solutions to create a new Array[T]
+         * for a reference type T without having to load the Scala library.
+         *
+         * @deprecated use the {@code new Array[T]} syntax which also does not load the Scala library.
+         * @param <T> the type of an element.
+         * @param clazz the class representing the type of an element.
+         * @param n the number of elements.
+         * @return the new array of length n.
+         */
+        @Deprecated
+        @SuppressWarnings("unchecked")
+        public <T> T[] newReferenceArray(Class<T> clazz, int n) {
+            return (T[]) java.lang.reflect.Array.newInstance(clazz, n);
+        }
     }
 
     /*-************************* Public high-level API for input *************************-*/
 
     /**
      * Reads from the input file and returns the next non-whitespace token.
-     * <p>
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
      * <li>consume all non-whitespace symbols until the next whitespace symbol;</li>
      * <li>return the consumed symbols as a {@link String}.</li>
      * </ul>
-     * <p>
+     *
      * When the operation succeeds, the stream pointer for the input file points to the next
      * symbol after the last symbol of the consumed token.
      *
@@ -60,8 +154,40 @@ public class EdxIO implements Closeable {
     }
 
     /**
+     * Reads from the input file and returns the next non-whitespace token, stored as an array of bytes.
+     *
+     * This will:
+     * <ul>
+     * <li>skip all whitespace until the next non-whitespace symbol;</li>
+     * <li>consume all non-whitespace symbols until the next whitespace symbol;</li>
+     * <li>return the consumed symbols as an array of bytes.</li>
+     * </ul>
+     *
+     * When the operation succeeds, the stream pointer for the input file points to the next
+     * symbol after the last symbol of the consumed token.
+     *
+     * @return the next non-whitespace token stored as an array of bytes.
+     */
+    public byte[] nextBytes() {
+        skipWhiteSpace();
+        int start = inputPosition;
+        if (start >= inputCapacity) {
+            return null;
+        }
+        int finish = start;
+        while (finish < inputCapacity && inputBuffer.get(finish) > 32) {
+            ++finish;
+        }
+        byte[] bytes = new byte[finish - start];
+        inputBuffer.position(start);
+        inputBuffer.get(bytes);
+        inputPosition = finish;
+        return bytes;
+    }
+
+    /**
      * Reads from the input file and returns the next non-whitespace character.
-     * <p>
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
@@ -76,25 +202,23 @@ public class EdxIO implements Closeable {
         if (inputPosition >= inputCapacity) {
             throw new IllegalStateException("Unexpected end-of-file");
         }
-        char rv = (char) currentSymbol();
-        ++inputPosition;
-        return rv;
+        return (char) inputBuffer.get(inputPosition++);
     }
 
     /**
      * Reads from the input file and returns the next int.
-     * <p>
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
      * <li>try consuming as much non-whitespace symbols as needed to read an int;</li>
      * <li>if done successfully, returns an int, otherwise leaves the stream at the position
-     * which stopped correct parsing of an int and throws an exception.</li>
+     *     which stopped correct parsing of an int and throws an exception.</li>
      * </ul>
-     * <p>
+     *
      * When the operation succeeds, the stream pointer for the input file points to the next
      * symbol after the last symbol of the consumed int value.
-     * <p>
+     *
      * When the operation fails, the stream pointer for the input file points to the first
      * symbol which made the symbol sequence not interpretable as an int.
      *
@@ -102,11 +226,7 @@ public class EdxIO implements Closeable {
      */
     public int nextInt() {
         skipWhiteSpace();
-        boolean isNegative = false;
-        if (currentSymbol() == '-') {
-            isNegative = true;
-            ++inputPosition;
-        }
+        boolean isNegative = readSignReturnIfNegative();
         boolean hasDigits = false;
         int value = 0;
         while (true) {
@@ -132,18 +252,18 @@ public class EdxIO implements Closeable {
 
     /**
      * Reads from the input file and returns the next long.
-     * <p>
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
      * <li>try consuming as much non-whitespace symbols as needed to read a long;</li>
      * <li>if done successfully, returns a long, otherwise leaves the stream at the position
-     * which stopped correct parsing of an int and throws an exception.</li>
+     *     which stopped correct parsing of an int and throws an exception.</li>
      * </ul>
-     * <p>
+     *
      * When the operation succeeds, the stream pointer for the input file points to the next
      * symbol after the last symbol of the consumed long value.
-     * <p>
+     *
      * When the operation fails, the stream pointer for the input file points to the first
      * symbol which made the symbol sequence not interpretable as a long.
      *
@@ -151,27 +271,23 @@ public class EdxIO implements Closeable {
      */
     public long nextLong() {
         skipWhiteSpace();
-        boolean isNegative = false;
-        if (currentSymbol() == '-') {
-            isNegative = true;
-            ++inputPosition;
-        }
+        boolean isNegative = readSignReturnIfNegative();
         return nextLongImpl(isNegative);
     }
 
     /**
      * Reads from the input file and returns the next double.
-     * Internally, {@link Double.parseDouble(String)} is used.
-     * This is slow, as {@link String}s and {@code Matcher}s are involved.
-     * To read doubles faster, but in a not so conformant way, use {@link nextDoubleFast()}.
-     * <p>
+     * Internally, {@link Double#parseDouble(String)} is used.
+     * This is slow, as {@link String}s and {@link java.util.regex.Matcher}s are involved.
+     * To read doubles faster, but in a not so conformant way, use {@link #nextDoubleFast()}.
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
      * <li>consume all non-whitespace symbols until the next whitespace symbol;</li>
-     * <li>invoke {@link Double.parseDouble(String)} on the resulting character sequence and return the result.</li>
+     * <li>invoke {@link Double#parseDouble(String)} on the resulting character sequence and return the result.</li>
      * </ul>
-     * <p>
+     *
      * Regardless of whether double parsing is successful, the stream pointer for the input file points to the first
      * whitespace symbol after the sequence of non-whitespace characters which has just been read.
      *
@@ -193,10 +309,10 @@ public class EdxIO implements Closeable {
 
     /**
      * Reads from the input file and returns the next double.
-     * This is a custom implementation which is not guaranteed to read all doubles {@link nextDoublePrecise()} does,
-     * nor guaranteed to return the same values as {@link nextDoublePrecise()} does on the same input.
+     * This is a custom implementation which is not guaranteed to read all doubles {@link #nextDoublePrecise()} does,
+     * nor guaranteed to return the same values as {@link #nextDoublePrecise()} does on the same input.
      * However, it is very fast.
-     * <p>
+     *
      * This will:
      * <ul>
      * <li>skip all whitespace until the next non-whitespace symbol;</li>
@@ -206,19 +322,15 @@ public class EdxIO implements Closeable {
      * <li>if the next symbol is either 'e' or 'E', skip this symbol and continue, otherwise return the result of the previous step.</li>
      * <li>try reading an int, interpret it as an exponent, apply it and return the value.</li>
      * </ul>
-     * <p>
+     *
      * The state of the stream after returning from this function depends on the input as if exactly the same sequence as above
-     * is executed, see {@link nextLong()}.
+     * is executed, see {@link #nextLong()}.
      *
      * @return the double value which has just been read from the input file.
      */
     public double nextDoubleFast() {
         skipWhiteSpace();
-        boolean isNegative = false;
-        if (currentSymbol() == '-') {
-            isNegative = true;
-            ++inputPosition;
-        }
+        boolean isNegative = readSignReturnIfNegative();
         long first = nextLongImpl(isNegative);
         if (currentSymbol() == '.') {
             int startPosition = ++inputPosition;
@@ -258,12 +370,11 @@ public class EdxIO implements Closeable {
      * @return the current symbol, or -1 of EOF is reached.
      */
     public byte currentSymbol() {
-        return inputPosition < inputCapacity ? inputBuffer.get(inputPosition) : (byte) -1;
+        return inputPosition < inputCapacity ? inputBuffer.get(inputPosition) : (byte)-1;
     }
 
     /**
      * Skips the specified number of symbols from the input.
-     *
      * @param nSymbols the number of symbols to skip.
      */
     public void skipSymbols(int nSymbols) {
@@ -272,9 +383,9 @@ public class EdxIO implements Closeable {
         }
         int diff = inputCapacity - inputPosition;
         if (diff > nSymbols) {
-            inputCapacity += nSymbols;
+            inputPosition += nSymbols;
         } else {
-            inputCapacity = inputPosition;
+            inputPosition = inputCapacity;
         }
     }
 
@@ -491,7 +602,20 @@ public class EdxIO implements Closeable {
 
     /*-************************* Implementation of nextInt *************************-*/
 
-    private boolean nextIntImplIsSafe(int value, int add, boolean isNegative) {
+    private boolean readSignReturnIfNegative() {
+        byte curr = currentSymbol();
+        switch (curr) {
+            case '-':
+                ++inputPosition;
+                return true;
+            case '+':
+                ++inputPosition;
+            default:
+                return false;
+        }
+    }
+
+    private static boolean nextIntImplIsSafe(int value, int add, boolean isNegative) {
         if (value < 214748364) {
             return true;
         }
@@ -525,7 +649,7 @@ public class EdxIO implements Closeable {
         }
     }
 
-    private boolean nextLongImplIsSafe(long value, int add, boolean isNegative) {
+    private static boolean nextLongImplIsSafe(long value, int add, boolean isNegative) {
         if (value < 922337203685477580L) {
             return true;
         }
@@ -594,7 +718,7 @@ public class EdxIO implements Closeable {
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
-    };
+    } ;
 
     private int intToBuffer(int value, int pos) {
         // This is adapted from String.valueOf(int)
@@ -607,7 +731,7 @@ public class EdxIO implements Closeable {
             numberBuffer[--pos] = digitTens[r];
         }
         while (true) {
-            int q = (value * 52429) >>> (16 + 3);
+            int q = (value * 52429) >>> (16+3);
             int r = value - ((q << 3) + (q << 1));  // r = i-(q*10) ...
             numberBuffer[--pos] = digitOnes[r];
             value = q;

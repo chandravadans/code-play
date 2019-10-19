@@ -2,18 +2,18 @@ package com.cv.codepad.edx.wcc.w1;
 
 import com.cv.codepad.edx.wcc.EdxIO;
 
-//import mooc.*;
+public final class APlusB {
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
-
-public class APlusB {
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String... args) {
         try (EdxIO io = EdxIO.create()) {
-            io.println(io.nextInt() + io.nextInt());
+            io.println(APlusBSolver.solve(io.nextInt(), io.nextInt()));
         }
+    }
+}
+
+final class APlusBSolver {
+
+    public static int solve(int a, int b) {
+        return a + b;
     }
 }
