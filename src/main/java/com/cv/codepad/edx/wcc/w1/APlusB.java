@@ -1,6 +1,6 @@
 package com.cv.codepad.edx.wcc.w1;
 
-import com.cv.codepad.edx.wcc.EdxIO;
+import mooc.EdxIO;
 
 public final class APlusB {
 

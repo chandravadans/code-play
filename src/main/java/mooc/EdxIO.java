@@ -1,4 +1,4 @@
-package com.cv.codepad.edx.wcc;
+package mooc;
 
 import java.io.*;
 import java.nio.*;
