@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static java.util.stream.IntStream.range;
+
 /**
  * To successfully participate in programming competitions, you should prepare a lot. This is very clear to young Jamie.
  * So he decided to undertake a scientific point of view. Jamie thinks that the preparation level is determined by a
@@ -46,13 +48,13 @@ public class Prepare {
     public static void main(String[] args) {
         try (EdxIO io = EdxIO.create()) {
             int n = io.nextInt();
-            List<Integer> p = new ArrayList<>(), t = new ArrayList<>();
-            IntStream.range(0, n).forEach(i -> {
-                p.add(io.nextInt());
-            });
-            IntStream.range(0, n).forEach(i -> {
-                t.add(io.nextInt());
-            });
+
+            List<Integer> p = new ArrayList<>(n);
+            range(0, n).forEach(i -> p.add(io.nextInt()));
+
+            List<Integer> t = new ArrayList<>(n);
+            range(0, n).forEach(i -> t.add(io.nextInt()));
+
             io.println(PrepareSolver.solve(n, p, t));
         }
     }
